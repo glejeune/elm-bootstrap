@@ -1,7 +1,8 @@
-var path = require('path');
+var path = require('path'),
+    webpack = require('webpack'),
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    minimize = process.env.NODE_ENV === 'production';
 
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -76,7 +77,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     })
-  ],
+  ].concat(minimize ? [
+    new webpack.optimize.UglifyJsPlugin()
+  ] : []),
 
   devServer: {
     inline: true,
@@ -84,3 +87,4 @@ module.exports = {
   },
 
 };
+
