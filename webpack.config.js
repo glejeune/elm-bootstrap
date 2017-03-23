@@ -1,13 +1,14 @@
 var path = require('path'),
     webpack = require('webpack'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
+    FaviconsWebpackPlugin = require('favicons-webpack-plugin'),
     minimize = process.env.NODE_ENV === 'production';
 
 
 module.exports = {
   entry: {
     app: [
-      './src/index.js'
+      './src/assets/index.js'
     ]
   },
 
@@ -61,7 +62,7 @@ module.exports = {
         }]
       },
       {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.(ttf|eot|svg|ico)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         use: [{
           loader: 'file-loader'
         }]
@@ -76,7 +77,8 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html'
-    })
+    }),
+    new FaviconsWebpackPlugin('./src/assets/elm-lang.png')
   ].concat(minimize ? [
     new webpack.optimize.UglifyJsPlugin()
   ] : []),
